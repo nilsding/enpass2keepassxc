@@ -19,7 +19,7 @@ And it does not use CSV anywhere!
 
 ## Installation
 
-You only need Crystal 0.34.0 or newer.
+You only need Crystal 1.12.2 or newer.
 
 ## Usage
 
@@ -50,4 +50,4 @@ You're done!
 
 ## Contributors
 
-- [Georg Gadinger](https://github.com/nilsding) - creator and maintainer
+- [Jyrki Gadinger](https://github.com/nilsding) - creator and maintainer

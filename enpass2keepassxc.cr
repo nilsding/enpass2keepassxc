@@ -6,54 +6,54 @@ require "xml"
 
 module Enpass
   class Export
-    JSON.mapping(
-      folders: Array(Folder),
-      items: Array(Item)
-    )
+    include JSON::Serializable
+
+    property folders : Array(Folder)
+    property items : Array(Item)
 
     class Folder
-      JSON.mapping(
-        uuid: String,
-        parent_uuid: String,
-        title: String,
-        icon: String,
-        updated_at: Int64
-      )
+      include JSON::Serializable
+
+      property uuid : String
+      property parent_uuid : String
+      property title : String
+      property icon : String
+      property updated_at : Int64
     end
 
     class Item
-      JSON.mapping(
-        uuid: String,
-        title: String,
-        auto_submit: Int32,
-        category: String,
-        favorite: Int32,
-        folders: Array(String)?,
-        fields: Array(Item::Field)?,
-        note: String,
-        subtitle: String,
-        template_type: String,
-        updated_at: Int64
-      )
+      include JSON::Serializable
+
+      property uuid : String
+      property title : String
+      property auto_submit : Int32
+      property category : String
+      property favorite : Int32
+      property folders : Array(String)?
+      property fields : Array(Item::Field)?
+      property note : String
+      property subtitle : String
+      property template_type : String
+      property updated_at : Int64
 
       class Field
-        JSON.mapping(
-          label: String,
-          type: String,
-          history: Array(Field::History)?,
-          order: Int32,
-          sensitive: Int32,
-          uid: Int32,
-          updated_at: Int64,
-          value: String,
-          value_updated_at: Int64
-        )
+        include JSON::Serializable
+
+        property label : String
+        property type : String
+        property history : Array(Field::History)?
+        property order : Int32
+        property sensitive : Int32
+        property uid : Int32
+        property updated_at : Int64
+        property value : String
+        property value_updated_at : Int64
 
         class History
-          JSON.mapping(
-            updated_at: Int64,
-            value: String,
-          )
+          include JSON::Serializable
+
+          property updated_at : Int64
+          property value : String
         end
       end
     end
@@ -196,7 +196,7 @@ def build_entry(xml, item)
         totp_uri = URI.new(
           scheme: "otpauth",
           host: "totp",
-          path: URI.encode([item.title, "someone"].join(":")), # here's hoping keepassxc doesn't care about the username in here
+          path: URI.encode_path([item.title, "someone"].join(":")), # here's hoping keepassxc doesn't care about the username in here
           query: totp_params
         ).to_s
 
